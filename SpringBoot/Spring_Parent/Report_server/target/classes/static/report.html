@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>报表</title>
+
+</head>
+<body>
+<div id="app">
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/axios.js"></script>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript" src="js/jquery.table2excel.js"></script>
+
+    <div id="export_content">
+        <table  class="table2excel" border="slider">
+            <tr>
+                <th colspan="9" style="font-size: 25px" align="center">城八区电信销售统计表</th>
+            </tr>
+            <!--        <caption>城八区电信销售统计表</caption>-->
+            <tr>
+                <th rowspan="2" width="500px">地区</th>
+                <th colspan="2">合计</th>
+                <th colspan="2">固定电话</th>
+                <th colspan="2">小灵通</th>
+                <th colspan="2">移动电话</th>
+            </tr>
+            <tr>
+                <th>销售额</th>
+                <th>排名</th>
+                <th>销售额</th>
+                <th>排名</th>
+                <th>销售额</th>
+                <th>排名</th>
+                <th>销售额</th>
+                <th>排名</th>
+            </tr>
+            <tr v-for="report in reports">
+                <th>{{report.address}}</th>
+                <th v-for="result in report.result">{{result}}</th>
+            </tr>
+        </table>
+    </div>
+    <table>
+        <tr>
+            <td>
+                <input type="button" value="导出到excel中" class="btn btn-primary noExl"
+                       onclick="table2Excel('城八区电信销售统计表.xls')"/>
+                <input type="button" value="PDF" onclick="downPdf()" class="btn btn-primary noExl" />
+            </td>
+        </tr>
+    </table>
+    <!--    <a>导出表格为Excel</a>-->
+
+</div>
+
+</body>
+
+<script type="text/javascript" src="js/html2canvas.js"></script>
+<script type="text/javascript" src="js/jspdf.debug.js"></script>
+<script type="text/javascript">
+
+    //filename 导出的excel文件名
+    //方法可带filename参数，亦可不带参数直接定义
+    function table2Excel(filename) {
+        $(".table2excel").table2excel({
+            exclude: ".noExl",//class="noExl"的列不导出
+            name: "城八区电信销售统计表",
+            filename: filename,//文件名称
+            fileext: ".xls",//文件后缀名
+            exclude_img: true,//导出图片
+            exclude_links: true,//导出超链接
+            exclude_inputs: true//导出输入框内容
+        });
+    }
+
+    // // table生成pdf文件
+    // function downPdf(){
+    //     html2canvas(
+    //         document.getElementById("export_content"),
+    //         {
+    //             dpi: 172,//导出pdf清晰度
+    //             onrendered: function (canvas) {
+    //                 var contentWidth = canvas.width;
+    //                 var contentHeight = canvas.height;
+    //
+    //                 //一页pdf显示html页面生成的canvas高度;
+    //                 var pageHeight = contentWidth / 592.28 * 841.89;
+    //                 //未生成pdf的html页面高度
+    //                 var leftHeight = contentHeight;
+    //                 //pdf页面偏移
+    //                 var position = 0;
+    //                 //html页面生成的canvas在pdf中图片的宽高（a4纸的尺寸[595.28,841.89]）
+    //                 var imgWidth = 595.28;
+    //                 var imgHeight = 592.28 / contentWidth * contentHeight;
+    //
+    //                 var pageData = canvas.toDataURL('image/jpeg', 1.0);
+    //                 var pdf = new jsPDF('', 'pt', 'a4');
+    //
+    //                 //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+    //                 //当内容未超过pdf一页显示的范围，无需分页
+    //                 if (leftHeight < pageHeight) {
+    //                     pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+    //                 } else {
+    //                     while (leftHeight > 0) {
+    //                         pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+    //                         leftHeight -= pageHeight;
+    //                         position -= 841.89;
+    //                         //避免添加空白页
+    //                         if (leftHeight > 0) {
+    //                             pdf.addPage();
+    //                         }
+    //                     }
+    //                 }
+    //                 pdf.save('content.pdf');
+    //             },
+    //             //背景设为白色（默认为黑色）
+    //             background: "#fff"
+    //         })
+    // }
+
+    function downPdf() {
+        html2canvas(
+            document.getElementById("export_content"),
+            {
+                dpi: 1720,//导出pdf清晰度
+                onrendered: function (canvas) {
+                    var contentWidth = canvas.width;
+                    var contentHeight = canvas.height;
+
+                    //一页pdf显示html页面生成的canvas高度;
+                    var pageHeight = contentWidth / 592.28 * 841.89;
+                    //未生成pdf的html页面高度
+                    var leftHeight = contentHeight;
+                    //pdf页面偏移
+                    var position = 0;
+                    //html页面生成的canvas在pdf中图片的宽高（a4纸的尺寸[595.28,841.89]）
+                    var imgWidth = 595.28;
+                    var imgHeight = 592.28 / contentWidth * contentHeight;
+
+                    var pageData = canvas.toDataURL('image/jpeg', 1.0);
+                    var pdf = new jsPDF('', 'pt', 'a4');
+
+                    //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                    //当内容未超过pdf一页显示的范围，无需分页
+                    if (leftHeight < pageHeight) {
+                        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                    } else {
+                        while (leftHeight > 0) {
+                            pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                            leftHeight -= pageHeight;
+                            position -= 841.89;
+                            //避免添加空白页
+                            if (leftHeight > 0) {
+                                pdf.addPage();
+                            }
+                        }
+                    }
+                    pdf.save('content.pdf');
+                },
+                //背景设为白色（默认为黑色）
+                background: "#fff"
+            })
+    }
+
+
+
+    // // 使用outerHTML属性获取整个table元素的HTML代码（包括<table>标签），然后包装成一个完整的HTML文档，设置charset为urf-8以防止中文乱码
+    // var html = "<html><head><meta charset='utf-8' /></head><body>" + document.getElementsByTagName("table")[0].outerHTML + "</body></html>";
+    // // 实例化一个Blob对象，其构造函数的第一个参数是包含文件内容的数组，第二个参数是包含文件类型属性的对象
+    // var blob = new Blob([html], {type: "application/vnd.ms-excel"});
+    // var a = document.getElementsByTagName("a")[0];
+    // // 利用URL.createObjectURL()方法为a元素生成blob URL
+    // a.href = URL.createObjectURL(blob);
+    // // 设置文件名，目前只有Chrome和FireFox支持此属性
+    // a.download = "城八区电信销售统计表.xls";
+
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                reports: []
+            }
+        },
+        created() {
+            axios.get(`/report/getReports`).then(response => {
+
+                this.reports = response.data;
+            })
+        }
+    })
+</script>
+</html>

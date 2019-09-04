@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>树形下拉框</title>
+    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script type="text/javascript" src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript">
+        function savereg(){
+            $('#ff').form('submit',{
+                url:'form2_proc.php',
+                success:function(data){
+                    $.messager.alert('Info', data, 'info');
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div id="dlg" class="easyui-dialog"
+      buttons="#dlg-buttons">
+        <table>
+            <tr>
+                <td>City:</td>
+                <td><select class="easyui-combotree" url="http://127.0.0.1:9091/ztree/getUi" name="下拉" style="width:156px;"/></td>
+            </tr>
+        </table>
+</div>
+</body>
+</html>

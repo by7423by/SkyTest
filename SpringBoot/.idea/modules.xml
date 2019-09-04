@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Spring_Parent/Eureka_Server/Eureka_Server.iml" filepath="$PROJECT_DIR$/Spring_Parent/Eureka_Server/Eureka_Server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spring_Parent/Report_server/Report_server.iml" filepath="$PROJECT_DIR$/Spring_Parent/Report_server/Report_server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spring_Parent/Spring_Parent.iml" filepath="$PROJECT_DIR$/Spring_Parent/Spring_Parent.iml" />
+    </modules>
+  </component>
+</project>
