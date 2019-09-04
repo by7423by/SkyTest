@@ -1,5 +1,5 @@
 server:
-  port: 10086
+  port: 10000
 #  port: ${port:10086} 集群配置
 spring:
   application:
@@ -7,8 +7,8 @@ spring:
 eureka:
   client:
     service-url: # EurekaServer的地址，现在是自己的地址，如果是集群，需要写其它Server的地址。
-#      defaultZone: ${defaultZone:http://127.0.0.1:10086/eureka} 集群配置
-      defaultZone: http://127.0.0.1:10086/eureka
+#      defaultZone: ${defaultZone:http://127.0.0.1:10000/eureka} 集群配置
+      defaultZone: http://127.0.0.1:10000/eureka
       # eureka服务地址；如果是集群则是其它服务器地址，后面要加/eureka
     #register-with-eureka: false # 不注册自己  不设置默认为true
     #fetch-registry: false #不拉取
