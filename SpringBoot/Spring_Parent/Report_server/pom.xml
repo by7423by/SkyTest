@@ -55,7 +55,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.3</version>
+            <version>2.7</version>
         </dependency>
         <!--        熔断器配置 保险装置用于处理高并发情况下 网络异常等情况-->
         <dependency>
